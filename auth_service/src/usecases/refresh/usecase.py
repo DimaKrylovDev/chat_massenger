@@ -20,6 +20,5 @@ class RefreshUsecase(AuthBaseUsecase):
         await self.update_session(request.token.session_id, last_active_at=datetime.datetime.now())
 
         access_token = await self.create_access_token(session.user_id)
-        refresh_token = await self.create_refresh_token(session.id)
 
-        return RefreshResponse(access_token=access_token, refresh_token=refresh_token)
+        return RefreshResponse(access_token=access_token)

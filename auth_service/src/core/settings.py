@@ -25,10 +25,6 @@ class Settings(BaseSettings):
     def GRPC_CHANNEL(self) -> grpc.Channel:
         return grpc.aio.insecure_channel("localhost:50051")
 
-    @property
-    def GRPC_STUB(self) -> auth_pb2_grpc.AuthServiceStub:
-        return auth_pb2_grpc.AuthServiceStub(self.GRPC_CHANNEL)
-
     model_config = SettingsConfigDict(env_file="../.env", env_file_encoding="utf-8")
 
 

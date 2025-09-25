@@ -5,6 +5,6 @@ from typing import Optional
 
 class Token(BaseModel):
     jwt_string: str
-    user_id: Optional[UUID] = None
-    session_id: Optional[UUID] = None
+    user_id: Optional[str] = None
+    session_id: Optional[str] = None
     exp: float
