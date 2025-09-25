@@ -1,0 +1,75 @@
+syntax='proto3';
+
+service AuthService{
+    rpc SignUp(SignUpRequest) returns (SignUpResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc RefreshToken(RefreshRequest) returns (RefreshResponse);
+    rpc Logout(LogoutRequest) returns (LogoutResponse);
+}
+
+message SignUpRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+    string bio = 4;
+}
+
+message SignUpResponse{
+    string access_token = 1;
+    string refresh_token = 2;
+    string token_type = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  string token_type = 3;
+}
+
+message RefreshRequest {
+  Token token = 1;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  string token_type = 3;
+}
+
+message LogoutRequest {
+  Token token = 1;
+}
+
+message LogoutResponse {
+  string message = 1;
+}
+
+message UserBase{
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string bio = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message Token {
+  string jwt_string = 1;
+  string user_id = 2;
+  string session_id = 3;
+  string exp = 4;
+}
+
+message SessionBase{
+    string id = 1;
+    string user_id = 2;
+    string token = 3;
+    bool is_active = 4;
+    string last_active_at = 5;
+}
+

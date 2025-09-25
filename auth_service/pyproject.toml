@@ -1,0 +1,24 @@
+[project]
+name = "auth-service"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "DimaKrylovDev",email = "metiq2007@yandex.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.117.1,<0.118.0)",
+    "sqlalchemy (>=2.0.43,<3.0.0)",
+    "pydantic (>=2.11.9,<3.0.0)",
+    "pydantic-settings (>=2.10.1,<3.0.0)",
+    "jwt (>=1.4.0,<2.0.0)",
+    "bcrypt (>=4.3.0,<5.0.0)",
+    "grpcio (>=1.75.0,<2.0.0)",
+    "grpcio-tools (>=1.75.0,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

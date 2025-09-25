@@ -1,0 +1,99 @@
+from abc import ABC, abstractmethod
+import uuid
+from sqlalchemy import select, insert, update, delete
+from db.base import async_session_maker
+from pydantic import EmailStr
+
+
+class AbstractBaseRepository(ABC):
+    @abstractmethod
+    async def get_by_id(self, id_: uuid.UUID):
+        pass
+
+    @abstractmethod
+    async def find_active_session(self, session_id: uuid.UUID):
+        pass
+
+    @abstractmethod
+    async def get_one_or_none(self, **filter_by: dict):
+        pass
+
+    @abstractmethod
+    async def get_by_email(self, email: EmailStr):
+        pass
+    @abstractmethod
+    async def get_by_username(self, username: str):
+        pass
+
+    @abstractmethod
+    async def create(self, **values: dict):
+        pass
+
+    @abstractmethod
+    async def update(self, id_: uuid.UUID | int, **values: dict):
+        pass
+
+    @abstractmethod
+    async def delete(self, id_: uuid.UUID | int):
+        pass
+
+
+class BaseRepository(AbstractBaseRepository):
+    model = None
+
+    @classmethod
+    async def get_by_id(self, id_: uuid.UUID | int):
+        async with async_session_maker() as session:
+            query = select(self.model).where(self.model.id == id_)
+            result = await session.execute(query)
+            return result.scalars().first()
+
+    @classmethod
+    async def find_active_session(self, session_id: uuid.UUID):
+        async with async_session_maker() as session:
+            query = select(self.model).where(self.model.id == session_id, self.model.is_active == True)
+            result = await session.execute(query)
+            return result.scalars().first()
+
+    @classmethod
+    async def get_one_or_none(self, **filter_by: dict):
+        async with async_session_maker() as session:
+            query = select(self.model).filter_by(**filter_by)
+            result = await session.execute(query)
+            return result.mappings().one_or_none()
+        
+    @classmethod
+    async def get_by_email(self, email: EmailStr):
+        async with async_session_maker() as session:
+            query = select(self.model).where(self.model.email == email)
+            result = await session.execute(query)
+            return result.scalars().first()
+
+    @classmethod
+    async def get_by_username(self, username: str):
+        async with async_session_maker() as session:
+            query = select(self.model).where(self.model.username == username)
+            result = await session.execute(query)
+            return result.mappings().one_or_none()
+
+    @classmethod
+    async def create(self, **values: dict):
+        async with async_session_maker() as session:
+            query = insert(self.model).values(**values).returning(self.model)
+            result = await session.execute(query)
+            await session.commit()
+            return result.scalars().first()
+        
+    @classmethod
+    async def update(self, id_: uuid.UUID | int, **values: dict):
+        async with async_session_maker() as session:
+            query = update(self.model).where(self.model.id == id_).values(**values)
+            await session.execute(query)
+            await session.commit()
+            
+    @classmethod
+    async def delete(self, id_: uuid.UUID | int):
+        async with async_session_maker() as session:
+            query = delete(self.model).where(self.model.id == id_)
+            await session.execute(query)
+            await session.commit()
