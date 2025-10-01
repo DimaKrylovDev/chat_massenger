@@ -1,10 +1,8 @@
 from pydantic import BaseModel
-from uuid import UUID
-import datetime
-from typing import Optional
+import uuid
 
 class Token(BaseModel):
     jwt_string: str
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
+    user_id: uuid.UUID | None = None
+    session_id: uuid.UUID | None = None
     exp: float

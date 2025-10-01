@@ -1,8 +1,6 @@
 import uuid
 
 from pydantic import BaseModel
-from schemas.token import Token
-
 
 class LogoutRequest(BaseModel):
-    token: Token
+    session_id: uuid.UUID

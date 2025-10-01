@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from schemas.token import Token
+import uuid
 
 class RefreshRequest(BaseModel):
-    token: Token
+    session_id: uuid.UUID
 

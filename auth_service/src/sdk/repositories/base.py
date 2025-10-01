@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import uuid
 from sqlalchemy import select, insert, update, delete
 from db.base import async_session_maker
-from pydantic import EmailStr
 
 
 class AbstractBaseRepository(ABC):
@@ -11,18 +10,7 @@ class AbstractBaseRepository(ABC):
         pass
 
     @abstractmethod
-    async def find_active_session(self, session_id: uuid.UUID):
-        pass
-
-    @abstractmethod
     async def get_one_or_none(self, **filter_by: dict):
-        pass
-
-    @abstractmethod
-    async def get_by_email(self, email: EmailStr):
-        pass
-    @abstractmethod
-    async def get_by_username(self, username: str):
         pass
 
     @abstractmethod
@@ -49,32 +37,11 @@ class BaseRepository(AbstractBaseRepository):
             return result.scalars().first()
 
     @classmethod
-    async def find_active_session(self, session_id: uuid.UUID):
-        async with async_session_maker() as session:
-            query = select(self.model).where(self.model.id == session_id, self.model.is_active == True)
-            result = await session.execute(query)
-            return result.scalars().first()
-
-    @classmethod
     async def get_one_or_none(self, **filter_by: dict):
         async with async_session_maker() as session:
             query = select(self.model).filter_by(**filter_by)
             result = await session.execute(query)
-            return result.mappings().one_or_none()
-        
-    @classmethod
-    async def get_by_email(self, email: EmailStr):
-        async with async_session_maker() as session:
-            query = select(self.model).where(self.model.email == email)
-            result = await session.execute(query)
-            return result.scalars().first()
-
-    @classmethod
-    async def get_by_username(self, username: str):
-        async with async_session_maker() as session:
-            query = select(self.model).where(self.model.username == username)
-            result = await session.execute(query)
-            return result.mappings().one_or_none()
+            return result.scalars().one_or_none()
 
     @classmethod
     async def create(self, **values: dict):

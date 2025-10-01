@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from generated import auth_pb2 as auth__pb2
+import generated.auth_pb2 as auth__pb2
 
 GRPC_GENERATED_VERSION = '1.75.0'
 GRPC_VERSION = grpc.__version__
@@ -54,6 +54,11 @@ class AuthServiceStub(object):
                 request_serializer=auth__pb2.LogoutRequest.SerializeToString,
                 response_deserializer=auth__pb2.LogoutResponse.FromString,
                 _registered_method=True)
+        self.ValidateToken = channel.unary_unary(
+                '/AuthService/ValidateToken',
+                request_serializer=auth__pb2.ValidateTokenRequest.SerializeToString,
+                response_deserializer=auth__pb2.ValidateTokenResponse.FromString,
+                _registered_method=True)
 
 
 class AuthServiceServicer(object):
@@ -83,6 +88,12 @@ class AuthServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ValidateToken(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -105,6 +116,11 @@ def add_AuthServiceServicer_to_server(servicer, server):
                     servicer.Logout,
                     request_deserializer=auth__pb2.LogoutRequest.FromString,
                     response_serializer=auth__pb2.LogoutResponse.SerializeToString,
+            ),
+            'ValidateToken': grpc.unary_unary_rpc_method_handler(
+                    servicer.ValidateToken,
+                    request_deserializer=auth__pb2.ValidateTokenRequest.FromString,
+                    response_serializer=auth__pb2.ValidateTokenResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -215,6 +231,33 @@ class AuthService(object):
             '/AuthService/Logout',
             auth__pb2.LogoutRequest.SerializeToString,
             auth__pb2.LogoutResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ValidateToken(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/AuthService/ValidateToken',
+            auth__pb2.ValidateTokenRequest.SerializeToString,
+            auth__pb2.ValidateTokenResponse.FromString,
             options,
             channel_credentials,
             insecure,

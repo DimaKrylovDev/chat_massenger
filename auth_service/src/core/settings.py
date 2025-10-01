@@ -10,7 +10,8 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
 
-    FASTAPI_PORT: int 
+    REDIS_HOST: str
+    REDIS_PORT: int
 
     ACCESS_TOKEN_MINUTES: int 
     REFRESH_TOKEN_DAYS: int
