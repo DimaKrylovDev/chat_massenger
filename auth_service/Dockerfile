@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -15,23 +15,16 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --no-dev && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --sync --no-root && rm -rf $POETRY_CACHE_DIR
 
 COPY . .
 
-RUN cd src && python -m grpc_tools.protoc \
-    --proto_path=../proto \
-    --python_out=generated \
-    --grpc_python_out=generated \
-    ../proto/auth.proto
+# Убеждаемся, что все зависимости установлены
+RUN poetry install --sync
 
 ENV PYTHONPATH=/app/src
 ENV PYTHONUNBUFFERED=1
 
-RUN useradd --create-home --shell /bin/bash appuser && \
-    chown -R appuser:appuser /app
-USER appuser
-
-EXPOSE 8000 50050
+EXPOSE 50050
 
 CMD ["poetry", "run", "python", "src/main.py"]

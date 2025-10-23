@@ -25,7 +25,15 @@ class ValidateTokenUsecase:
                 user_id=None,
                 error_message="Invalid token"
             )
+        exp = payload.get("exp")
 
+        if exp == 0:
+            return ValidateTokenResponse(
+                valid=False,
+                user_id=None,
+                error_message="Token expired"
+            )
+            
         return ValidateTokenResponse(
             valid=True,
             user_id=user_id,

@@ -73,3 +73,10 @@ class BaseRepository(AbstractBaseRepository):
             query = delete(self.model).where(self.model.id == id_)
             await session.execute(query)
             await session.commit()
+    
+    @classmethod 
+    async def delete_by_filter(self, **filter_by: dict):
+        async with async_session_maker() as session:
+            query = delete(self.model).filter_by(**filter_by)
+            await session.execute(query)
+            await session.commit()

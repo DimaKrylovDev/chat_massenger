@@ -24,13 +24,15 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\"L\n\x11\x43reateChatRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tchat_name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"G\n\x12\x43reateChatResponse\x12\x0f\n\x07\x63hat_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"&\n\x13GetUserChatsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"A\n\x14GetUserChatsResponse\x12\x14\n\x05\x63hats\x18\x01 \x03(\x0b\x32\x05.Chat\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"]\n\x12SendMessageRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\t\x12\x14\n\x0cmessage_type\x18\x04 \x01(\t\"K\n\x13SendMessageResponse\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"6\n\x12GetMessagesRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\"F\n\x13GetMessagesResponse\x12\x1a\n\x08messages\x18\x01 \x03(\x0b\x32\x08.Message\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"L\n\x14\x44\x65leteMessageRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x12\n\nmessage_id\x18\x03 \x01(\t\"(\n\x15\x44\x65leteMessageResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"Q\n\x15\x41\x64\x64ParticipantRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x16\n\x0eparticipant_id\x18\x03 \x01(\t\")\n\x16\x41\x64\x64ParticipantResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"T\n\x18\x44\x65leteParticipantRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x16\n\x0eparticipant_id\x18\x03 \x01(\t\",\n\x19\x44\x65leteParticipantResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"-\n\x1aGetChatParticipantsRequest\x12\x0f\n\x07\x63hat_id\x18\x01 \x01(\t\"V\n\x1bGetChatParticipantsResponse\x12\"\n\x0cparticipants\x18\x01 \x03(\x0b\x32\x0c.Participant\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"5\n\x11\x44\x65leteChatRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\"%\n\x12\x44\x65leteChatResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"I\n\x04\x43hat\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\"r\n\x07Message\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x04 \x01(\t\x12\x14\n\x0cmessage_type\x18\x05 \x01(\t\x12\x12\n\ncreated_at\x18\x06 \x01(\t\"/\n\x0bParticipant\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t2\xcd\x04\n\x0b\x43hatService\x12\x35\n\nCreateChat\x12\x12.CreateChatRequest\x1a\x13.CreateChatResponse\x12;\n\x0cGetUserChats\x12\x14.GetUserChatsRequest\x1a\x15.GetUserChatsResponse\x12\x35\n\nDeleteChat\x12\x12.DeleteChatRequest\x1a\x13.DeleteChatResponse\x12\x38\n\x0bSendMessage\x12\x13.SendMessageRequest\x1a\x14.SendMessageResponse\x12>\n\rDeleteMessage\x12\x15.DeleteMessageRequest\x1a\x16.DeleteMessageResponse\x12\x38\n\x0bGetMessages\x12\x13.GetMessagesRequest\x1a\x14.GetMessagesResponse\x12\x41\n\x0e\x41\x64\x64Participant\x12\x16.AddParticipantRequest\x1a\x17.AddParticipantResponse\x12J\n\x11\x44\x65leteParticipant\x12\x19.DeleteParticipantRequest\x1a\x1a.DeleteParticipantResponse\x12P\n\x13GetChatParticipants\x12\x1b.GetChatParticipantsRequest\x1a\x1c.GetChatParticipantsResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\"L\n\x11\x43reateChatRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tchat_name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"G\n\x12\x43reateChatResponse\x12\x0f\n\x07\x63hat_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"&\n\x13GetUserChatsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"A\n\x14GetUserChatsResponse\x12\x14\n\x05\x63hats\x18\x01 \x03(\x0b\x32\x05.Chat\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"]\n\x12SendMessageRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\t\x12\x14\n\x0cmessage_type\x18\x04 \x01(\t\"K\n\x13SendMessageResponse\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"6\n\x12GetMessagesRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\"F\n\x13GetMessagesResponse\x12\x1a\n\x08messages\x18\x01 \x03(\x0b\x32\x08.Message\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"L\n\x14\x44\x65leteMessageRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x12\n\nmessage_id\x18\x03 \x01(\t\"(\n\x15\x44\x65leteMessageResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"o\n\x15\x41\x64\x64ParticipantRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x16\n\x0eparticipant_id\x18\x02 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x03 \x01(\t\x12\x1c\n\tuser_type\x18\x04 \x01(\x0e\x32\t.UserType\")\n\x16\x41\x64\x64ParticipantResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"T\n\x18\x44\x65leteParticipantRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x16\n\x0eparticipant_id\x18\x03 \x01(\t\",\n\x19\x44\x65leteParticipantResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\">\n\x1aGetChatParticipantsRequest\x12\x0f\n\x07\x63hat_id\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\"V\n\x1bGetChatParticipantsResponse\x12\"\n\x0cparticipants\x18\x01 \x03(\x0b\x32\x0c.Participant\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"5\n\x11\x44\x65leteChatRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\"%\n\x12\x44\x65leteChatResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"I\n\x04\x43hat\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\"r\n\x07Message\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x04 \x01(\t\x12\x14\n\x0cmessage_type\x18\x05 \x01(\t\x12\x12\n\ncreated_at\x18\x06 \x01(\t\"/\n\x0bParticipant\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63hat_id\x18\x02 \x01(\t**\n\x08UserType\x12\x08\n\x04USER\x10\x00\x12\t\n\x05\x41\x44MIN\x10\x01\x12\t\n\x05OWNER\x10\x02\x32\xcd\x04\n\x0b\x43hatService\x12\x35\n\nCreateChat\x12\x12.CreateChatRequest\x1a\x13.CreateChatResponse\x12;\n\x0cGetUserChats\x12\x14.GetUserChatsRequest\x1a\x15.GetUserChatsResponse\x12\x35\n\nDeleteChat\x12\x12.DeleteChatRequest\x1a\x13.DeleteChatResponse\x12\x38\n\x0bSendMessage\x12\x13.SendMessageRequest\x1a\x14.SendMessageResponse\x12>\n\rDeleteMessage\x12\x15.DeleteMessageRequest\x1a\x16.DeleteMessageResponse\x12\x38\n\x0bGetMessages\x12\x13.GetMessagesRequest\x1a\x14.GetMessagesResponse\x12\x41\n\x0e\x41\x64\x64Participant\x12\x16.AddParticipantRequest\x1a\x17.AddParticipantResponse\x12J\n\x11\x44\x65leteParticipant\x12\x19.DeleteParticipantRequest\x1a\x1a.DeleteParticipantResponse\x12P\n\x13GetChatParticipants\x12\x1b.GetChatParticipantsRequest\x1a\x1c.GetChatParticipantsResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'chat_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
+  _globals['_USERTYPE']._serialized_start=1466
+  _globals['_USERTYPE']._serialized_end=1508
   _globals['_CREATECHATREQUEST']._serialized_start=14
   _globals['_CREATECHATREQUEST']._serialized_end=90
   _globals['_CREATECHATRESPONSE']._serialized_start=92
@@ -52,27 +54,27 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_DELETEMESSAGERESPONSE']._serialized_start=650
   _globals['_DELETEMESSAGERESPONSE']._serialized_end=690
   _globals['_ADDPARTICIPANTREQUEST']._serialized_start=692
-  _globals['_ADDPARTICIPANTREQUEST']._serialized_end=773
-  _globals['_ADDPARTICIPANTRESPONSE']._serialized_start=775
-  _globals['_ADDPARTICIPANTRESPONSE']._serialized_end=816
-  _globals['_DELETEPARTICIPANTREQUEST']._serialized_start=818
-  _globals['_DELETEPARTICIPANTREQUEST']._serialized_end=902
-  _globals['_DELETEPARTICIPANTRESPONSE']._serialized_start=904
-  _globals['_DELETEPARTICIPANTRESPONSE']._serialized_end=948
-  _globals['_GETCHATPARTICIPANTSREQUEST']._serialized_start=950
-  _globals['_GETCHATPARTICIPANTSREQUEST']._serialized_end=995
-  _globals['_GETCHATPARTICIPANTSRESPONSE']._serialized_start=997
-  _globals['_GETCHATPARTICIPANTSRESPONSE']._serialized_end=1083
-  _globals['_DELETECHATREQUEST']._serialized_start=1085
-  _globals['_DELETECHATREQUEST']._serialized_end=1138
-  _globals['_DELETECHATRESPONSE']._serialized_start=1140
-  _globals['_DELETECHATRESPONSE']._serialized_end=1177
-  _globals['_CHAT']._serialized_start=1179
-  _globals['_CHAT']._serialized_end=1252
-  _globals['_MESSAGE']._serialized_start=1254
-  _globals['_MESSAGE']._serialized_end=1368
-  _globals['_PARTICIPANT']._serialized_start=1370
-  _globals['_PARTICIPANT']._serialized_end=1417
-  _globals['_CHATSERVICE']._serialized_start=1420
-  _globals['_CHATSERVICE']._serialized_end=2009
+  _globals['_ADDPARTICIPANTREQUEST']._serialized_end=803
+  _globals['_ADDPARTICIPANTRESPONSE']._serialized_start=805
+  _globals['_ADDPARTICIPANTRESPONSE']._serialized_end=846
+  _globals['_DELETEPARTICIPANTREQUEST']._serialized_start=848
+  _globals['_DELETEPARTICIPANTREQUEST']._serialized_end=932
+  _globals['_DELETEPARTICIPANTRESPONSE']._serialized_start=934
+  _globals['_DELETEPARTICIPANTRESPONSE']._serialized_end=978
+  _globals['_GETCHATPARTICIPANTSREQUEST']._serialized_start=980
+  _globals['_GETCHATPARTICIPANTSREQUEST']._serialized_end=1042
+  _globals['_GETCHATPARTICIPANTSRESPONSE']._serialized_start=1044
+  _globals['_GETCHATPARTICIPANTSRESPONSE']._serialized_end=1130
+  _globals['_DELETECHATREQUEST']._serialized_start=1132
+  _globals['_DELETECHATREQUEST']._serialized_end=1185
+  _globals['_DELETECHATRESPONSE']._serialized_start=1187
+  _globals['_DELETECHATRESPONSE']._serialized_end=1224
+  _globals['_CHAT']._serialized_start=1226
+  _globals['_CHAT']._serialized_end=1299
+  _globals['_MESSAGE']._serialized_start=1301
+  _globals['_MESSAGE']._serialized_end=1415
+  _globals['_PARTICIPANT']._serialized_start=1417
+  _globals['_PARTICIPANT']._serialized_end=1464
+  _globals['_CHATSERVICE']._serialized_start=1511
+  _globals['_CHATSERVICE']._serialized_end=2100
 # @@protoc_insertion_point(module_scope)

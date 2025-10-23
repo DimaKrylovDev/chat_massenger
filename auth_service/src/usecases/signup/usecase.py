@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from fastapi import HTTPException
 
 from usecases.signup.request import SignUpRequest
@@ -27,6 +28,7 @@ class SignUpUsecase(AuthBaseUsecase):
         hashed_password = self.hash_password(request.password)
 
         user = await self.auth_repository.create(
+            id=uuid.uuid4(),
             username=request.username,
             email=request.email,
             hashed_password=str(hashed_password),
@@ -37,6 +39,7 @@ class SignUpUsecase(AuthBaseUsecase):
             raise HTTPException(status_code=400, detail="Failed to create user")
 
         session = await self.session_repository.create(
+            id=uuid.uuid4(),
             user_id=user.id,
             last_active_at=datetime.datetime.now()
         )

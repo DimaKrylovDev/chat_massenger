@@ -33,17 +33,16 @@ message LoginResponse {
 }
 
 message RefreshRequest {
-  Token token = 1;
+  string session_id = 1;
 }
 
 message RefreshResponse {
   string access_token = 1;
-  string refresh_token = 2;
   string token_type = 3;
 }
 
 message LogoutRequest {
-  Token token = 1;
+  string session_id = 1;
 }
 
 message LogoutResponse {
@@ -64,7 +63,6 @@ message ValidateTokenRequest {
 message ValidateTokenResponse {
   bool valid = 1;
   string user_id = 2;
-  string session_id = 3;
   string error_message = 4;
 }
 

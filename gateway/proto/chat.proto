@@ -77,8 +77,9 @@ message DeleteMessageResponse{
 
 message AddParticipantRequest {
   string user_id = 1;
-  string chat_id = 2;
-  string participant_id = 3;
+  string participant_id = 2;
+  string chat_id = 3;
+  UserType user_type = 4;
 }
 
 message AddParticipantResponse {
@@ -97,6 +98,7 @@ message DeleteParticipantResponse{
 
 message GetChatParticipantsRequest{
   string chat_id = 1;
+  string user_id = 2;
 }
 
 message GetChatParticipantsResponse{
@@ -120,6 +122,11 @@ message Chat {
   string created_at = 4;
 }
 
+enum UserType{
+  USER = 0;
+  ADMIN = 1;
+  OWNER = 2;
+}
 
 message Message {
   string id = 1;

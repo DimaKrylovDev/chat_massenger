@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\"O\n\rSignUpRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0b\n\x03\x62io\x18\x04 \x01(\t\"Q\n\x0eSignUpResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"P\n\rLoginResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"\'\n\x0eRefreshRequest\x12\x15\n\x05token\x18\x01 \x01(\x0b\x32\x06.Token\"R\n\x0fRefreshResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"&\n\rLogoutRequest\x12\x15\n\x05token\x18\x01 \x01(\x0b\x32\x06.Token\"!\n\x0eLogoutResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"M\n\x05Token\x12\x12\n\njwt_string\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x12\n\nsession_id\x18\x03 \x01(\t\x12\x0b\n\x03\x65xp\x18\x04 \x01(\x03\",\n\x14ValidateTokenRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\"b\n\x15ValidateTokenResponse\x12\r\n\x05valid\x18\x01 \x01(\x08\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x12\n\nsession_id\x18\x03 \x01(\t\x12\x15\n\rerror_message\x18\x04 \x01(\t2\xfe\x01\n\x0b\x41uthService\x12)\n\x06SignUp\x12\x0e.SignUpRequest\x1a\x0f.SignUpResponse\x12&\n\x05Login\x12\r.LoginRequest\x1a\x0e.LoginResponse\x12\x31\n\x0cRefreshToken\x12\x0f.RefreshRequest\x1a\x10.RefreshResponse\x12)\n\x06Logout\x12\x0e.LogoutRequest\x1a\x0f.LogoutResponse\x12>\n\rValidateToken\x12\x15.ValidateTokenRequest\x1a\x16.ValidateTokenResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\"O\n\rSignUpRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0b\n\x03\x62io\x18\x04 \x01(\t\"Q\n\x0eSignUpResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"P\n\rLoginResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"$\n\x0eRefreshRequest\x12\x12\n\nsession_id\x18\x01 \x01(\t\";\n\x0fRefreshResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\ntoken_type\x18\x03 \x01(\t\"#\n\rLogoutRequest\x12\x12\n\nsession_id\x18\x01 \x01(\t\"!\n\x0eLogoutResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"M\n\x05Token\x12\x12\n\njwt_string\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x12\n\nsession_id\x18\x03 \x01(\t\x12\x0b\n\x03\x65xp\x18\x04 \x01(\x03\",\n\x14ValidateTokenRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\"N\n\x15ValidateTokenResponse\x12\r\n\x05valid\x18\x01 \x01(\x08\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x15\n\rerror_message\x18\x04 \x01(\t2\xfe\x01\n\x0b\x41uthService\x12)\n\x06SignUp\x12\x0e.SignUpRequest\x1a\x0f.SignUpResponse\x12&\n\x05Login\x12\r.LoginRequest\x1a\x0e.LoginResponse\x12\x31\n\x0cRefreshToken\x12\x0f.RefreshRequest\x1a\x10.RefreshResponse\x12)\n\x06Logout\x12\x0e.LogoutRequest\x1a\x0f.LogoutResponse\x12>\n\rValidateToken\x12\x15.ValidateTokenRequest\x1a\x16.ValidateTokenResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -40,19 +40,19 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_LOGINRESPONSE']._serialized_start=227
   _globals['_LOGINRESPONSE']._serialized_end=307
   _globals['_REFRESHREQUEST']._serialized_start=309
-  _globals['_REFRESHREQUEST']._serialized_end=348
-  _globals['_REFRESHRESPONSE']._serialized_start=350
-  _globals['_REFRESHRESPONSE']._serialized_end=432
-  _globals['_LOGOUTREQUEST']._serialized_start=434
-  _globals['_LOGOUTREQUEST']._serialized_end=472
-  _globals['_LOGOUTRESPONSE']._serialized_start=474
-  _globals['_LOGOUTRESPONSE']._serialized_end=507
-  _globals['_TOKEN']._serialized_start=509
-  _globals['_TOKEN']._serialized_end=586
-  _globals['_VALIDATETOKENREQUEST']._serialized_start=588
-  _globals['_VALIDATETOKENREQUEST']._serialized_end=632
-  _globals['_VALIDATETOKENRESPONSE']._serialized_start=634
-  _globals['_VALIDATETOKENRESPONSE']._serialized_end=732
-  _globals['_AUTHSERVICE']._serialized_start=735
-  _globals['_AUTHSERVICE']._serialized_end=989
+  _globals['_REFRESHREQUEST']._serialized_end=345
+  _globals['_REFRESHRESPONSE']._serialized_start=347
+  _globals['_REFRESHRESPONSE']._serialized_end=406
+  _globals['_LOGOUTREQUEST']._serialized_start=408
+  _globals['_LOGOUTREQUEST']._serialized_end=443
+  _globals['_LOGOUTRESPONSE']._serialized_start=445
+  _globals['_LOGOUTRESPONSE']._serialized_end=478
+  _globals['_TOKEN']._serialized_start=480
+  _globals['_TOKEN']._serialized_end=557
+  _globals['_VALIDATETOKENREQUEST']._serialized_start=559
+  _globals['_VALIDATETOKENREQUEST']._serialized_end=603
+  _globals['_VALIDATETOKENRESPONSE']._serialized_start=605
+  _globals['_VALIDATETOKENRESPONSE']._serialized_end=683
+  _globals['_AUTHSERVICE']._serialized_start=686
+  _globals['_AUTHSERVICE']._serialized_end=940
 # @@protoc_insertion_point(module_scope)

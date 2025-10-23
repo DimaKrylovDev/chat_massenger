@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 import uuid
-import datetime
+from sdk.enums.user_type import UserType
 
 class Participant(BaseModel):
     user_id: uuid.UUID
     chat_id: uuid.UUID
-    added_by_id: uuid.UUID
-    added_at: datetime.datetime
+    user_type: UserType
 
     class Config:
         from_attributes = True

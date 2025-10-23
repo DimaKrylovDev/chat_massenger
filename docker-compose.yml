@@ -1,12 +1,104 @@
-version: '3.8'
-
 services:
-  redis:
-    image: redis:latest
+  postgres:
+    image: postgres:15-alpine
+    container_name: chat_manager_postgres
     ports:
-      - 6379:6379
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chat_manager
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - chat_manager_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: chat_manager_redis
+    ports:
+      - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - chat_manager_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    container_name: chat_manager_auth_service
+    ports:
+      - "50050:50050"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chat_manager
+      - REDIS_URL=redis://redis:6379
+      - PYTHONPATH=/app/src
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - chat_manager_network
+    restart: unless-stopped
+
+  chat-service:
+    build:
+      context: ./chat_service
+      dockerfile: Dockerfile
+    container_name: chat_manager_chat_service
+    ports:
+      - "50051:50051"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chat_manager
+      - REDIS_URL=redis://redis:6379
+      - PYTHONPATH=/app/src
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - chat_manager_network
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: chat_manager_api_gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_SERVICE_HOST=auth-service
+      - AUTH_SERVICE_PORT=50050
+      - CHAT_SERVICE_HOST=chat-service
+      - CHAT_SERVICE_PORT=50051
+      - PYTHONPATH=/app
+    depends_on:
+      - auth-service
+      - chat-service
+    networks:
+      - chat_manager_network
+    restart: unless-stopped
 
 volumes:
+  postgres_data:
+    driver: local
   redis_data:
+    driver: local
+
+networks:
+  chat_manager_network:
+    driver: bridge

@@ -97,11 +97,23 @@ class ChatService(chat_pb2_grpc.ChatServiceServicer):
 
     async def AddParticipant(self, request: chat_pb2.AddParticipantRequest, context: grpc.ServicerContext) -> chat_pb2.AddParticipantResponse:
         try:
-            request = AddParticipantRequest(
-            user_id=request.user_id,
-            chat_id=request.chat_id
+            # Конвертируем строки в UUID
+            import uuid
+            from sdk.enums.user_type import UserType
+
+            user_type_mapping = {
+                0: UserType.USER,
+                1: UserType.ADMIN, 
+                2: UserType.OWNER
+            }
+            
+            add_request = AddParticipantRequest(
+                user_id=uuid.UUID(request.user_id),
+                participant_id=uuid.UUID(request.participant_id),
+                chat_id=uuid.UUID(request.chat_id),
+                user_type=user_type_mapping[request.user_type]
             )
-            result = await self.add_participant_uc(request=request)
+            result = await self.add_participant_uc(request=add_request)
             return chat_pb2.AddParticipantResponse(success=result.success)
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
