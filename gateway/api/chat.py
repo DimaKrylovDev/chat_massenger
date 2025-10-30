@@ -12,7 +12,7 @@ router = APIRouter()
 
 get_token = JWTGetter(settings.EE_SECRET_KEY)
 
-@router.post('/create', response_model=)
+@router.post('/create', response_model=CreateChatResponse)
 async def create_chat(request: CreateChatRequest, token: Token = Security(get_token), client: AsyncGrpcClients = Depends(get_clients)):
     user_id = token.user_id
     if not user_id:
