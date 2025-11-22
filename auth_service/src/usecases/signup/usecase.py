@@ -8,15 +8,20 @@ from usecases.signup.response import SignUpResponse
 from core.dependencies import get_auth_repository, get_session_repository
 from usecases.base import AuthBaseUsecase
 
+from sdk.repositories.factory import RepositoryFactory
+from sqlalchemy.ext.asyncio import AsyncSession
 
 class SignUpUsecase(AuthBaseUsecase):
 
-    def __init__(self):
-        self.auth_repository = get_auth_repository()
-        self.session_repository = get_session_repository()
+    def __init__(self, session: AsyncSession):
+        self.session = session
+        self.repo_factory = RepositoryFactory(session)
 
     async def __call__(self, request: SignUpRequest) -> SignUpResponse:
-        existing_user = await self.auth_repository.get_one_or_none(email=request.email)
+        auth_repo = self.repo_factory.get_auth_repository()
+        session_repo = self.repo_factory.get_session_repository()
+
+        existing_user = await auth_repo.get_one_or_none(email=request.email)
 
         if existing_user:
             raise HTTPException(status_code=400, detail="User already exists")
@@ -38,7 +43,7 @@ class SignUpUsecase(AuthBaseUsecase):
         if not user:
             raise HTTPException(status_code=400, detail="Failed to create user")
 
-        session = await self.session_repository.create(
+        session = await session_repo.create(
             id=uuid.uuid4(),
             user_id=user.id,
             last_active_at=datetime.datetime.now()
@@ -49,5 +54,7 @@ class SignUpUsecase(AuthBaseUsecase):
 
         access_token = self.create_access_token(str(user.id))
         refresh_token = self.create_refresh_token(str(session.id))
+
+        await self.session.commit()
 
         return SignUpResponse(access_token=access_token, refresh_token=refresh_token)

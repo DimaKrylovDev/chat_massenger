@@ -10,10 +10,10 @@ class RabbitMQManager:
         self.connection = None
         self.exchange = None
         self.channel = None
-        self._is_connected = None 
+        self._is_connected = False
 
     async def connect(self):
-        self.connection = await aio_pika.connect_robust(host="rabbitmq")
+        self.connection = await aio_pika.connect_robust(host="localhost", port=5672)
         self.channel = await self.connection.channel()
         self.exchange = await self.channel.declare_exchange(name="chat_events", type=settings.exchanger)
 

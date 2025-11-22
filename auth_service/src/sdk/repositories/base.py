@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
 import uuid
 from sqlalchemy import select, insert, update, delete
+from sqlalchemy.ext.asyncio import AsyncSession
 from db.base import async_session_maker
+from typing import Generic, TypeVar, Type
 
+T = TypeVar('T')
 
-class AbstractBaseRepository(ABC):
+class AbstractBaseRepository(ABC, Generic[T]):
     @abstractmethod
     async def get_by_id(self, id_: uuid.UUID):
         pass
@@ -26,41 +29,31 @@ class AbstractBaseRepository(ABC):
         pass
 
 
-class BaseRepository(AbstractBaseRepository):
-    model = None
+class BaseRepository(AbstractBaseRepository[T]):
+    def __init__(self, session: AsyncSession, model: Type[T]) -> None:
+        self.session = session
+        self.model = model
 
-    @classmethod
     async def get_by_id(self, id_: uuid.UUID | int):
-        async with async_session_maker() as session:
-            query = select(self.model).where(self.model.id == id_)
-            result = await session.execute(query)
-            return result.scalars().first()
+        query = select(self.model).where(self.model.id == id_)
+        result = await self.session.execute(query)
+        return result.scalars().first()
 
-    @classmethod
     async def get_one_or_none(self, **filter_by: dict):
-        async with async_session_maker() as session:
-            query = select(self.model).filter_by(**filter_by)
-            result = await session.execute(query)
-            return result.scalars().one_or_none()
+        query = select(self.model).filter_by(**filter_by)
+        result = await self.session.execute(query)
+        return result.scalars().one_or_none()
 
-    @classmethod
-    async def create(self, **values: dict):
-        async with async_session_maker() as session:
-            query = insert(self.model).values(**values).returning(self.model)
-            result = await session.execute(query)
-            await session.commit()
-            return result.scalars().first()
+    async def create(self, **values) -> T:
+        query = insert(self.model).values(**values).returning(self.model)
+        result = await self.session.execute(query)
+        return result.scalars().first()
         
-    @classmethod
     async def update(self, id_: uuid.UUID | int, **values: dict):
-        async with async_session_maker() as session:
-            query = update(self.model).where(self.model.id == id_).values(**values)
-            await session.execute(query)
-            await session.commit()
+        query = update(self.model).where(self.model.id == id_).values(**values).returning(self.model)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
             
-    @classmethod
     async def delete(self, id_: uuid.UUID | int):
-        async with async_session_maker() as session:
-            query = delete(self.model).where(self.model.id == id_)
-            await session.execute(query)
-            await session.commit()
+        query = delete(self.model).where(self.model.id == id_)
+        await self.session.execute(query)

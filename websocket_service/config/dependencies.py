@@ -8,7 +8,6 @@ rabbit_client = RabbitMQManager()
 redis_client = RedisPubSubManager()
 
 def get_rabbitq_manager():
-    rabbit_client.ensure_connection()
     return rabbit_client
 
 def get_redis_manager():

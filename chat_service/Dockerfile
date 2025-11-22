@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:latest
 
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -15,12 +15,9 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --sync --no-root && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
 COPY . .
-
-# Убеждаемся, что все зависимости установлены
-RUN poetry install --sync
 
 ENV PYTHONPATH=/app/src
 ENV PYTHONUNBUFFERED=1

@@ -15,12 +15,9 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --sync --no-root && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --no-root --no-ansi && rm -rf $POETRY_CACHE_DIR
 
 COPY . .
-
-# Убеждаемся, что все зависимости установлены
-RUN poetry install --sync
 
 ENV PYTHONPATH=/app/src
 ENV PYTHONUNBUFFERED=1

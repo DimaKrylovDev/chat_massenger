@@ -1,14 +1,9 @@
 from usecases.validate.request import ValidateTokenRequest
 from usecases.validate.response import ValidateTokenResponse
-from core.dependencies import get_auth_repository
 from core.settings import settings
 from jose import jwt
 
-
 class ValidateTokenUsecase:
-    def __init__(self):
-        self.auth_repository = get_auth_repository()
-
     async def __call__(self, request: ValidateTokenRequest) -> ValidateTokenResponse:
 
         payload = jwt.decode(

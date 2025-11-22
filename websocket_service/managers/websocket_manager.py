@@ -18,6 +18,7 @@ class WebSocketManager():
             return func 
 
         return decorator
+        
     async def connect(self, websocket: WebSocket):
         await websocket.accept() 
         self.active_connections.add(websocket)
@@ -39,6 +40,9 @@ class WebSocketManager():
         if chat_id not in self.chat_connections:
             self.chat_connections[chat_id] = set()
         
+        if websocket in self.chat_connections[chat_id]:
+            return f"User already in chat"
+            
         self.chat_connections[chat_id].add(websocket)
 
         if len(self.chat_connections[chat_id]) == 1:
@@ -59,7 +63,7 @@ class WebSocketManager():
                 raise f"Exception in leave_chat: {e}"
         
 
-    async def broadcast_to_chat(self, chat_id: UUID, message: str):
+    async def broadcast_to_chat(self, chat_id: UUID, message: dict | str):
         if chat_id not in self.chat_connections:
             raise "Failed to broadcast chat: chat_id not in list"
         
@@ -73,7 +77,7 @@ class WebSocketManager():
      
                 channel = message["channel"].decode("utf-8")
                 data = message["data"].decode("utf-8")
-                if channel == srt(chat_id):
+                if channel == str(chat_id):
                     sockets = self.chat_connections.get(channel, set()).copy()
                     if sockets:
                         for socket in list(sockets):
@@ -84,5 +88,8 @@ class WebSocketManager():
         except Exception as e:
             raise f"Pubsub reader error: {e}"
 
+    async def send_error(self, message: str, websocket: WebSocket):
+        return websocket.send_json({"status": "error", "message": message})
+    
 manager = WebSocketManager()
 

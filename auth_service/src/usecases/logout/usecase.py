@@ -7,14 +7,20 @@ from usecases.logout.request import LogoutRequest
 from usecases.logout.response import LogoutResponse
 
 from core.dependencies import get_session_repository
+
+from sdk.repositories.factory import RepositoryFactory
+from sqlalchemy.ext.asyncio import AsyncSession
+
 class LogoutUsecase(AuthBaseUsecase):
     
-    def __init__(self):
-        self.session_repository = get_session_repository()
+    def __init__(self, session: AsyncSession):
+        self.session = session
+        self.repo_factory = RepositoryFactory(session)
 
     async def __call__(self, request: LogoutRequest) -> LogoutResponse:
 
-        session = await self.session_repository.get_by_id(request.session_id)
+        session_repo = self.repo_factory.get_session_repository()
+        session = await session_repo.get_by_id(request.session_id)
 
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
@@ -25,5 +31,7 @@ class LogoutUsecase(AuthBaseUsecase):
         )
 
         await self.session_repository.update(session.id, **data)
+
+        await self.session.commit()
 
         return LogoutResponse()

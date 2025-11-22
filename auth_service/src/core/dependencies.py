@@ -1,8 +1,17 @@
-from sdk.repositories.auth import AuthRepository
-from sdk.repositories.session import SessionRepository
-def get_auth_repository():
-    return AuthRepository()
+from typing import AsyncGenerator
+from sqlalchemy.ext.asyncio import AsyncSession
+from db.base import async_session_maker
 
-def get_session_repository():
-    return SessionRepository()
+
+async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
+
+    async with async_session_maker() as session:
+        try:
+            yield session
+        except Exception:
+            await session.rollback() 
+            raise
+        finally:
+            await session.close()  # ✅ Закрытие сессии
+
 
